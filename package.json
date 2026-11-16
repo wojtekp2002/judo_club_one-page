@@ -10,7 +10,8 @@
     "test:e2e": "node scripts/verify.mjs",
     "test:motion": "node scripts/verify-motion.mjs",
     "test:people": "node scripts/verify-people.mjs",
-    "test:results": "node scripts/verify-results.mjs"
+    "test:results": "node scripts/verify-results.mjs",
+    "test:belts": "node scripts/verify-belts.mjs"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "^5.2.6",

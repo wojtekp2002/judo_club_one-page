@@ -35,6 +35,7 @@ jobs:
           npm run test:people
           npm run test:results
           npm run test:motion
+          npm run test:belts
       - uses: actions/upload-artifact@v6
         if: always()
         with:
@@ -44,6 +45,8 @@ jobs:
             design-references/test-report.json
             design-references/people/
             design-references/profiles/
+            design-references/belts/
+            test-results/belts/
             design-references/results/
             design-references/motion-review/report.json
           retention-days: 7

@@ -1,0 +1,226 @@
+[
+  {
+    "id": "6",
+    "grade": "6 KYU",
+    "color": "biały",
+    "colors": [
+      "#faf8f0",
+      "#faf8f0"
+    ],
+    "page": 3,
+    "basics": [
+      "Składanie judogi i wiązanie pasa",
+      "Uke i tori",
+      "Rei-ho",
+      "Shizen-tai",
+      "Shin-tai",
+      "Tsugi-ashi",
+      "Ayumi-ashi",
+      "Ukemi z pozycji kucznej",
+      "Kumi-kata",
+      "Happo-no-kuzushi"
+    ],
+    "throws": [],
+    "ground": [
+      "Hon-kesa-gatame",
+      "Tate-shiho-gatame",
+      "Yoko-shiho-gatame",
+      "Kami-shiho-gatame"
+    ]
+  },
+  {
+    "id": "5-5",
+    "grade": "5,5 KYU",
+    "color": "biało-żółty",
+    "colors": [
+      "#faf8f0",
+      "#edc847"
+    ],
+    "page": 3,
+    "basics": [
+      "Historia i zasady judo",
+      "Jigo-tai",
+      "Shin-tai",
+      "Tsugi-ashi",
+      "Ayumi-ashi",
+      "Tai-sabaki",
+      "Ukemi z postawy wysokiej, z podwyższenia i przez przeszkodę"
+    ],
+    "throws": [
+      "De-ashi-harai",
+      "O-soto-gari",
+      "O-uchi-gari",
+      "Ko-soto-gari"
+    ],
+    "ground": []
+  },
+  {
+    "id": "5",
+    "grade": "5 KYU",
+    "color": "żółty",
+    "colors": [
+      "#edc847",
+      "#edc847"
+    ],
+    "page": 4,
+    "basics": [],
+    "throws": [
+      "Ko-uchi-gari",
+      "Uki-goshi",
+      "Tai-otoshi",
+      "Sasae-tsurikomi-ashi"
+    ],
+    "ground": [
+      "Kuzure-kesa-gatame",
+      "Kuzure-kami-shiho-gatame",
+      "Kuzure-yoko-shiho-gatame"
+    ]
+  },
+  {
+    "id": "4-5",
+    "grade": "4,5 KYU",
+    "color": "żółto-pomarańczowy",
+    "colors": [
+      "#edc847",
+      "#d97635"
+    ],
+    "page": 4,
+    "basics": [],
+    "throws": [
+      "Tsuri-goshi",
+      "Okuri-ashi-harai",
+      "Ippon-seoi-nage",
+      "Hiza-guruma",
+      "O-goshi"
+    ],
+    "ground": [
+      "Kata-gatame",
+      "Mune-gatame"
+    ]
+  },
+  {
+    "id": "4",
+    "grade": "4 KYU",
+    "color": "pomarańczowy",
+    "colors": [
+      "#d97635",
+      "#d97635"
+    ],
+    "page": 4,
+    "basics": [],
+    "throws": [
+      "Tomoe-nage",
+      "Ko-soto-gake",
+      "Harai-goshi",
+      "Uchi-mata"
+    ],
+    "ground": [
+      "Hadaka-jime",
+      "Ude-garami",
+      "Ude-hishigi-juji-gatame",
+      "Okuri-eri-jime"
+    ]
+  },
+  {
+    "id": "3-5",
+    "grade": "3,5 KYU",
+    "color": "pomarańczowo-zielony",
+    "colors": [
+      "#d97635",
+      "#4c7855"
+    ],
+    "page": 4,
+    "basics": [],
+    "throws": [
+      "Sode-tsurikomi-goshi",
+      "Tsurikomi-goshi",
+      "Ashi-guruma"
+    ],
+    "ground": [
+      "Ushiro-ude-garami",
+      "Kata-juji-jime",
+      "Nami-juji-jime",
+      "Gyaku-juji-jime"
+    ]
+  },
+  {
+    "id": "3",
+    "grade": "3 KYU",
+    "color": "zielony",
+    "colors": [
+      "#4c7855",
+      "#4c7855"
+    ],
+    "page": 4,
+    "basics": [],
+    "throws": [
+      "Harai-tsurikomi-ashi",
+      "Uki-otoshi",
+      "Ushiro-goshi",
+      "Tani-otoshi"
+    ],
+    "ground": [
+      "Ude-hishigi-ude-gatame",
+      "Ude-hishigi-hiza-gatame",
+      "Ude-hishigi-waki-gatame",
+      "Kata-ha-jime",
+      "Tsukkomi-jime",
+      "Sankaku-jime"
+    ]
+  },
+  {
+    "id": "2",
+    "grade": "2 KYU",
+    "color": "niebieski",
+    "colors": [
+      "#345e8e",
+      "#345e8e"
+    ],
+    "page": 5,
+    "basics": [],
+    "throws": [
+      "Hane-goshi",
+      "Koshi-guruma",
+      "Yoko-otoshi",
+      "Utsuri-goshi",
+      "Kata-guruma",
+      "Sumi-gaeshi",
+      "Yoko-guruma"
+    ],
+    "ground": [
+      "Ude-hishigi-hara-gatame",
+      "Ude-hishigi-ashi-gatame",
+      "Ude-hishigi-sankaku-gatame",
+      "Ude-hishigi-te-gatame",
+      "Ashi-garami",
+      "Sode-guruma",
+      "Ryo-te-jime",
+      "Kata-te-jime"
+    ]
+  },
+  {
+    "id": "1",
+    "grade": "1 KYU",
+    "color": "brązowy",
+    "colors": [
+      "#75503b",
+      "#75503b"
+    ],
+    "page": 5,
+    "basics": [],
+    "throws": [
+      "Morote-gari",
+      "Hane-makikomi",
+      "Sukui-nage",
+      "O-guruma",
+      "Soto-makikomi",
+      "O-soto-guruma",
+      "Uki-waza",
+      "Yoko-wakare",
+      "Ura-nage",
+      "Sumi-otoshi",
+      "Yoko-gake"
+    ],
+    "ground": []
+  }
+]
