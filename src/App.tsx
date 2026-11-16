@@ -26,6 +26,7 @@ import {
   Facebook,
 } from "lucide-react";
 import { club, locations, news, gallery, faqs, type NewsItem } from "./data";
+import ResultsArchive from "./ResultsArchive";
 import People from "./People";
 import DojoJourney from "./DojoJourney";
 import usePageMotion from "./usePageMotion";
@@ -221,11 +222,11 @@ function App() {
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-photo">
             <img
-              src="/images/footer-original.jpg"
-              alt="Zawodnicy KS Polonia Rybnik i trener podczas treningu w dojo"
+              src="/images/judo-kids.jpeg"
+              alt="Młodzi judocy Polonii Rybnik podczas klubowego wydarzenia"
               fetchPriority="high"
-              width="1920"
-              height="942"
+              width="1600"
+              height="1200"
             />
           </div>
           <div className="hero-shade" />
@@ -263,7 +264,7 @@ function App() {
             </div>
             <div className="hero-caption">
               <span>Rybnik, Polska</span>
-              <span>Pawilon Judo / Powstańców Śląskich 42</span>
+              <span>Młodzi judocy / KS Polonia Rybnik</span>
             </div>
             <a
               className="hero-scroll"
@@ -321,11 +322,11 @@ function App() {
           </div>
           <figure className="intro-image" data-reveal="image">
             <img
-              src="/images/judo-kids.jpeg"
-              alt="Uśmiechnięte dzieci z Polonii Rybnik w białych judogach z żółtymi pasami"
+              src="/images/footer-original.jpg"
+              alt="Wspólna zbiórka zawodników Polonii Rybnik w dojo"
               loading="lazy"
-              width="1600"
-              height="1200"
+              width="1920"
+              height="942"
             />
             <figcaption>
               <span>Od pierwszego treningu</span>
@@ -649,6 +650,7 @@ function App() {
         </section>
 
         <People onJoin={openJoin} />
+        <ResultsArchive />
         <section className="shell portrait-archive" id="nasza-druzyna">
           <details>
             <summary>Archiwum portretów klubu</summary>

@@ -19,3 +19,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 import "./people.css";
+
+import "./results.css";
+import "./hero-photo.css";
