@@ -43,6 +43,7 @@ jobs:
             design-references/*verified.png
             design-references/test-report.json
             design-references/people/
+            design-references/profiles/
             design-references/results/
             design-references/motion-review/report.json
           retention-days: 7

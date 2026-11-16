@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import { chromium } from "playwright";
 const data = JSON.parse(await fs.readFile("src/ijf-results.json", "utf8"));
-assert.equal(data.athletes.length, 8);
+assert.equal(data.athletes.length, 10);
 for (const athlete of data.athletes) {
   assert.equal(athlete.counts.allRows, athlete.results.length);
   assert.equal(
@@ -23,7 +23,7 @@ for (const athlete of data.athletes) {
 }
 assert.equal(
   data.athletes.reduce((s, a) => s + a.results.length, 0),
-  206,
+  219,
 );
 const browser = await chromium.launch({
   executablePath:
@@ -103,7 +103,7 @@ try {
     .screenshot({ path: "design-references/results/mobile.png" });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS IJF dataset: 206 records / 8 athletes, filters, pagination, null ranks, CSV, share, responsive",
+    "PASS IJF dataset: 219 records / 10 athletes, filters, pagination, null ranks, CSV, share, responsive",
   );
 } finally {
   await browser.close();

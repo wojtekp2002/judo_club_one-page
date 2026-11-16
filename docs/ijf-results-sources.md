@@ -1,6 +1,6 @@
 # Pełny publiczny zbiór IJF — weryfikacja 16.11.2026
 
-Zbiór `src/ijf-results.json` zawiera **206 rekordów** dla ośmiu osób wymienionych na [oficjalnej liście zawodników KS Polonia Rybnik](http://www.judorybnik.pl/info/13/Zawodnicy.html). To **170 uczestnictw w zawodach** i **36 wydarzeń treningowych**. Wśród zawodów **59 rekordów ma opublikowaną lokatę**. Nie oznacza to 59 medali.
+Zbiór `src/ijf-results.json` zawiera **219 rekordów dla dziesięciu osób**: ośmiu wymienionych na [oficjalnej liście zawodników KS Polonia Rybnik](http://www.judorybnik.pl/info/13/Zawodnicy.html) oraz Konrada Liszki i Pawła Marka, których przynależność klubową w 2026 r. potwierdza [ranking Polskiego Związku Judo](https://pzjudo.pl/strefa-sportowa/ranking/). To **182 uczestnictwa w zawodach** i **37 wydarzeń treningowych**. Wśród zawodów **60 rekordów ma opublikowaną lokatę**. Nie oznacza to 60 medali.
 
 ## Zakres i metoda
 
@@ -24,8 +24,20 @@ To **pełny zbiór zwrócony przez publiczną historię IJF w dniu weryfikacji**
 | Wiktoria Mołdrzyk | [75587](https://www.ijf.org/judoka/75587) | 4 | 4 | 0 | 0 |
 | Igor Gabriel | [73700](https://www.ijf.org/judoka/73700) | 13 | 10 | 3 | 0 |
 | Adrian Stefański | [73701](https://www.ijf.org/judoka/73701) | 6 | 5 | 1 | 0 |
+| Konrad Liszka | [73702](https://www.ijf.org/judoka/73702) | 9 | 9 | 0 | 1 |
+| Paweł Marek | [83460](https://www.ijf.org/judoka/83460) | 4 | 3 | 1 | 0 |
 
 Identyfikację pozostałych osób potwierdzają nazwiska, imiona i polska narodowość na profilach oraz [oficjalna lista startowa Bielsko-Biała 2023](https://www.ijf.org/competition/2546/judoka_athletes). Zgodność klubowa wynika z oficjalnej listy klubu. Jej data aktualizacji nie jest podana; nie twierdzimy, że sam wpis jest kontraktowym potwierdzeniem statusu każdego zawodnika na sezon 2026/2027.
+
+### Aktualizacja składu: Konrad Liszka i Paweł Marek
+
+[Ranking PZ Judo](https://pzjudo.pl/strefa-sportowa/ranking/) wymienia obu jako zawodników Polonii Rybnik (rocznik 2008) i publikuje ich wyniki krajowe z 2026 r. Konrada potwierdza również [kadra narodowa juniorów 2026](https://pzjudo.pl/wp-content/uploads/2026/01/Kadra-Narodowa-Juniorzy.pdf): KS Polonia Rybnik, −66 kg, trener K. Mika. Identyfikatory IJF obu odczytano z bezpośrednich odnośników [listy startowej Bielsko-Biała 2025](https://www.ijf.org/competition/3035/judoka_athletes). Następnie pobrano pełne publiczne historie `/api/v1/competitors/73702/results` i `/83460/results`.
+
+Jedyną opublikowaną lokatą Konrada w tej historii jest **brąz Riga Cadet European Cup 2024** (19–20.10.2024), nie medal z 2026 r. Data wygenerowania dostępnego PDF w 2026 r. nie zmienia daty zawodów. Jego dziewięć rekordów IJF kończy się na Bielsko-Białej 2025; krajowe starty w 2026 r. są potwierdzone osobno przez PZ Judo.
+
+Paweł ma trzy uczestnictwa turniejowe i obóz Mittersill EJU OTC 2026, bez podanej lokaty. Waga −100 kg w nagłówku odpowiada juniorskim startom krajowym i obozowi z 2026 r.; wcześniejsze zawody kadetów mają kategorie +90 lub −90 kg. Jego stary widok IJF pokazujący −90 kg nie powinien nadpisywać wag poszczególnych rekordów.
+
+Na oficjalnej stronie zawodników klubu nie znaleziono portretu Konrada ani Pawła. Nie zgadywano ścieżek plików i nie zastąpiono ich cudzym zdjęciem. Widok powinien obsługiwać brak fotografii.
 
 ## Ważne różnice względem poprzedniej wersji
 
@@ -38,4 +50,4 @@ Identyfikację pozostałych osób potwierdzają nazwiska, imiona i polska narodo
 
 Znaleziono materiał [Historyczny sukces Polonii Rybnik. Brązowy medal Drużynowych Mistrzostw Polski w judo](https://www.rybnik.com.pl/wiadomosci,historyczny-sukces-polonii-rybnik-brazowy-medal-druzynowych-mistrzostw-polski-w-judo,wia5-3270-66419.html), opublikowany **12.10.2026 o 20:54**, aktualizacja 20:57. Ma galerię sześciu zdjęć oznaczoną „Fot. Materiały prasowe”. To nowsza grupowa referencja niż zdjęcie dzieci opublikowane przez klub 3.09.2026. Portal zastrzega prawa do rozpowszechniania materiału; oznaczenie „materiały prasowe” nie jest samodzielną licencją. Nie skopiowano tych fotografii ani zdjęć IJF do repozytorium. Przed użyciem konkretnego pliku potrzebna jest zgoda właściciela lub potwierdzenie licencji.
 
-Artykuł wymienia w medalowej drużynie również Konrada Liszkę i Pawła Marka. Nie dodano ich automatycznie do zbioru głównego, ponieważ nie figurują na wykorzystanej oficjalnej liście zawodników klubu. Wymagają odrębnego potwierdzenia aktualnego składu i profilu IJF.
+Artykuł wymienia w medalowej drużynie również Konrada Liszkę i Pawła Marka. Ich aktualną przynależność klubową i tożsamość IJF potwierdzono osobno powyższymi źródłami pierwotnymi; obaj są teraz uwzględnieni w zbiorze.
