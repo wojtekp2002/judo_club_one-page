@@ -16,7 +16,7 @@ Przed nową większą częścią interfejsu określ pięć decyzji: **produkt, c
 - Zdjęcia muszą przedstawiać klub lub rzeczywisty kontekst judo i mieć odnotowane źródło. Nie zastępuj ich przypadkowymi zdjęciami stockowymi ani pozorowanymi materiałami klubu. Sprawdź zgodę na wykorzystanie przed publikacją.
 - Stosuj jeden zestaw ikon Lucide, kontrolowany rozmiar i grubość kreski. Motyw dwóch cienkich kresek inspirowany oznaczeniem pasa judo jest detalem identyfikacji, nie tłem każdej powierzchni.
 - Ruch służy zmianie stanu i informacji zwrotnej. Unikaj animacji zapętlonych, parallaxu i `transition: all`; respektuj `prefers-reduced-motion`.
-- Zachowuj autorską sekwencję obi z `DojoJourney.tsx`: naturalne przewijanie odkrywa pas i trzy kroki do pierwszego treningu. Na niskich ekranach i przy ograniczonym ruchu działa ręczny wybór kroków. Nie przechwytuj gestów i nie dodawaj podobnego przypinania do każdej sekcji. Szczegóły: `docs/motion-refinement.md`.
+- Zachowuj autorską ilustrację obi z `DojoJourney.tsx` i trzy kroki do pierwszego treningu. Etap wybiera użytkownik przyciskiem lub klawiaturą; krótki ruch znacznika wynika wyłącznie z tego wyboru. Sekcja ma wysokość treści, bez przypinania, sterowania etapem przez scroll i programowego przewijania po wyborze. Przy ograniczonym ruchu znacznik zmienia pozycję od razu. Aktualne decyzje: `docs/motion-controls.md`; wcześniejszy wariant jest udokumentowany historycznie w `docs/motion-refinement.md`.
 
 ## Treść i działanie
 

@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-16T17:59:48.820Z",
+  "checks": [
+    "Naturalne przewijanie: bez przypinania, sztucznej wysokości, zmiany etapu i ruchu pasa od scrolla",
+    "Mysz i klawiatura: jawny wybór, strzałki/Home/End, zachowany fokus i pozycja strony",
+    "Kontakt z sekcji otwiera formularz; Escape zamyka okno",
+    "1440/1024/768/640/390/320 px i niski ekran: brak przepełnienia, stała wysokość etapów i zachowany wybór",
+    "prefers-reduced-motion: natychmiastowa pozycja znacznika, bez animacji, wszystkie etapy dostępne"
+  ],
+  "errors": []
+}
