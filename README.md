@@ -62,10 +62,16 @@ flowchart LR
 | **Klubowy dziennik** | Filtrować wiadomości, otworzyć artykuł i przejść do oficjalnego źródła |
 | **Półkolonie** | Sprawdzić turnusy zimowe 2027, informacje organizacyjne i pobrać kartę kwalifikacyjną |
 | **Ludzie i galeria** | Oglądać portrety, powiększać zdjęcia i przechodzić między nimi klawiaturą |
+| **Nazwiska z Rybnika** | Poznać 10 zawodników, przejrzeć najważniejsze osiągnięcia, sezon 2026 i wszystkie starty IJF bezpośrednio w profilu |
+| **Archiwum IJF** | Filtrować 219 wpisów: 182 starty turniejowe i 37 wydarzeń treningowych; pobrać CSV i udostępnić profil |
 | **FAQ i dokumenty** | Sprawdzić odpowiedzi przed pierwszym treningiem i pobrać deklarację członkowską |
 | **Kontakt** | Zadzwonić lub przygotować wiadomość e-mail z danymi potrzebnymi do dobrania zajęć |
 
 ### Ruch z konkretnym zadaniem
+
+Profile i archiwum korzystają z jednego zbioru danych IJF, zweryfikowanego 16.11.2026. Brak opublikowanej lokaty oznacza udział, nie przegraną. Zakres, źródła i ograniczenia: [dane IJF](docs/ijf-results-sources.md), [fotografie](docs/athlete-photo-refresh.md), [weryfikacja profili](docs/profile-refresh.md).
+
+![Nazwiska z Rybnika — profil Szymona, pełna historia i najważniejsze osiągnięcia](design-references/profiles/szymon-1440.png)
 
 | Efekt | Implementacja | Po co |
 | :--- | :--- | :--- |

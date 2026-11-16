@@ -22,3 +22,4 @@ import "./people.css";
 
 import "./results.css";
 import "./hero-photo.css";
+import "./profile-refresh.css";
