@@ -194,6 +194,7 @@ function App() {
               ["Treningi", "#treningi"],
               ["Aktualności", "#aktualnosci"],
               ["Kadra", "#kadra"],
+              ["Droga po pas", "#/droga-po-pas"],
               ["Obozy", "#obozy"],
               ["Kontakt", "#kontakt"],
             ].map(([label, href]) => (
@@ -800,6 +801,10 @@ function App() {
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} KS Polonia Rybnik</span>
             <div>
+              <a href="#/droga-po-pas">
+                Droga po pas
+                <ArrowUpRight />
+              </a>
               <a
                 href="http://www.judorybnik.pl/"
                 target="_blank"
@@ -1113,9 +1118,11 @@ function App() {
                 PRYWATNOŚĆ.
               </h2>
               <p>
-                Ta lokalna wersja strony nie używa plików cookies, narzędzi
-                analitycznych ani reklamowych. Fonty i zdjęcia są przechowywane
-                lokalnie.
+                Strona nie zawiera własnych narzędzi analitycznych ani
+                reklamowych. Fonty i klubowe fotografie są przechowywane
+                lokalnie. W „Drodze po pas” miniatury pochodzą z YouTube, a
+                odtwarzacz tej platformy wczytuje się po kliknięciu. Zewnętrzny
+                serwis stosuje własne zasady prywatności.
               </p>
               <p>
                 Formularz pierwszego treningu wyłącznie przygotowuje treść

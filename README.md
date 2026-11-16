@@ -68,6 +68,7 @@ flowchart LR
 | **Ludzie i galeria** | Oglądać portrety, powiększać zdjęcia i przechodzić między nimi klawiaturą |
 | **Nazwiska z Rybnika** | Poznać 10 zawodników, przejrzeć najważniejsze osiągnięcia, sezon 2026 i wszystkie starty IJF bezpośrednio w profilu |
 | **Archiwum IJF** | Filtrować 219 wpisów: 182 starty turniejowe i 37 wydarzeń treningowych; pobrać CSV i udostępnić profil |
+| **Droga po pas** | Wybrać jeden z 9 stopni KYU lub ścieżkę DAN; sprawdzić techniki, obejrzeć materiały Kodokan, zapisać powtórki i wydrukować program |
 | **FAQ i dokumenty** | Sprawdzić odpowiedzi przed pierwszym treningiem i pobrać deklarację członkowską |
 | **Kontakt** | Zadzwonić lub przygotować wiadomość e-mail z danymi potrzebnymi do dobrania zajęć |
 
@@ -96,6 +97,21 @@ Profile i archiwum korzystają z jednego zbioru danych IJF, zweryfikowanego 16.1
 </details>
 
 **Zakres zbioru:** 219 rekordów = 182 uczestnictwa turniejowe + 37 wydarzeń treningowych. Dane obejmują publiczną historię IJF z dnia weryfikacji, bez krajowych turniejów nieobecnych w tym źródle i bez synchronizacji na żywo. Zmiana danych w `src/ijf-results.json` aktualizuje równocześnie profile i archiwum.
+
+### Droga po pas — klubowy atlas
+
+Otwórz **`/#/droga-po-pas`** lub wybierz „Droga po pas” w menu. Podstrona ma własny widok i działa na statycznym hostingu bez reguł przekierowań. Jest ładowana osobno od strony głównej.
+
+- **9 stopni KYU z półstopniami**, 73 nazwy technik i podstawy programu PZ Judo; 87 unikalnych pozycji po uwzględnieniu wcześniejszych stopni.
+- **Nowy materiał lub cały dotychczasowy program**, wyszukiwarka oraz filtry podstaw, nage-waza i katame-waza.
+- **Podglądy i filmy Kodokan**, wczytywane w zewnętrznym odtwarzaczu po kliknięciu, bez autoplay. Przy braku dopasowanego materiału pozostaje wskazanie właściwego wymagania w źródle.
+- **Prywatny notes powtórek** w `localStorage`, zachowany po odświeżeniu, z potwierdzeniem usunięcia. Nie nadaje stopnia i nie ocenia wykonania techniki.
+- **Wydruk pełnego programu**, także z wcześniejszymi stopniami i niezależnie od aktywnego wyszukiwania; link do wybranego pasa z obsługą odmowy dostępu do schowka.
+- **DAN według odrębnego regulaminu z 2025 r.**: zestawienie kata oraz kolorów pasów, bez automatycznego wyliczania kwalifikacji.
+
+![Droga po pas — wybór stopnia, program i materiał Kodokan](design-references/belts/guide-desktop.png)
+
+Źródła i decyzje: [badanie wymagań](docs/belt-requirements-research.md), [kierunek i weryfikacja funkcji](docs/belt-guide-design.md), [materiały wizualne](docs/belt-media-sources.md). Program KYU jest aktualizacją z 01.07.2021, nadal publikowaną przez PZ Judo; data ponownego udostępnienia pliku w 2026 r. nie zmienia daty dokumentu.
 
 ### Ruch z konkretnym zadaniem
 
@@ -132,6 +148,7 @@ Otwórz adres wypisany przez Vite, domyślnie **http://127.0.0.1:5173**.
 | `npm run test:e2e` | Testy funkcji i responsywności w Chrome |
 | `npm run test:people` | Kompletność wyników 10 profili, klawiatura, fotografie i trenerzy |
 | `npm run test:results` | Integralność danych IJF, filtry, CSV i udostępnianie |
+| `npm run test:belts` | Programy KYU/DAN, routing, wyszukiwanie, notes, druk, materiały i stany odmowy zapisu |
 | `npm run test:motion` | Testy historii obi, klawiatury i ograniczonego ruchu |
 
 <a id="architektura"></a>
@@ -141,9 +158,14 @@ Otwórz adres wypisany przez Vite, domyślnie **http://127.0.0.1:5173**.
 ```mermaid
 flowchart TB
   V[Vite] --> R[React + TypeScript]
-  R --> A[App: sekcje, grafik, filtry i dialogi]
+  BR --> A[App: sekcje, grafik, filtry i dialogi]
   R --> J[DojoJourney: historia pasa obi]
   R --> M[usePageMotion: wejścia i postęp czytania]
+  R --> BR[SiteRouter: strona klubu lub Droga po pas]
+  BR --> BG[BeltGuide: program i notes powtórek]
+  BG --> BD[belt-program.json: wymagania PZ Judo]
+  BG --> BM[belt-media.json: adresy materiałów Kodokan]
+  BG --> LS[localStorage: prywatne zaznaczenia]
   A --> K[People: zawodnicy i trenerzy]
   A --> H[ResultsArchive: filtry, CSV i udostępnianie]
   K --> F[athleteProfiles: fotografie i wybór osiągnięć]
@@ -162,6 +184,11 @@ src/
 ├── App.tsx              # strona i działające interakcje
 ├── DojoJourney.tsx      # trzy etapy opowieści i ilustracja SVG
 ├── People.tsx           # profile zawodników, galerie i kadra
+├── SiteRouter.tsx       # dwa widoki, routing przez hash
+├── BeltGuide.tsx        # Droga po pas, notes, filtry i druk
+├── beltGuideData.ts     # łączenie programu i materiałów
+├── belt-program.json    # wymagania 9 KYU według PZ Judo
+├── belt-media.json      # identyfikatory materiałów Kodokan
 ├── athleteProfiles.ts   # przygotowanie profili i wyróżnienie osiągnięć
 ├── ResultsArchive.tsx   # archiwum, filtry, CSV i linki do udostępnienia
 ├── ijf-results.json     # wspólny zbiór wyników IJF dla profili i archiwum
@@ -183,7 +210,7 @@ design-references/       # rzeczywiste zrzuty, raporty i film
 .agents/skills/          # pełna instalacja Unslop Local
 ```
 
-Fonty i fotografie są lokalne. Strona nie potrzebuje zewnętrznego CDN ani kluczy API. Wynik `build` jest statyczną stroną do umieszczenia na hostingu.
+Fonty i klubowe fotografie są lokalne. „Droga po pas” wczytuje miniatury YouTube oraz, po kliknięciu, odtwarzacz w trybie `youtube-nocookie.com`; dostępność filmu zależy od platformy i sieci. Notes i lista wymagań działają bez kluczy API. Wynik `build` jest statyczną stroną do umieszczenia na hostingu.
 
 ### Co dzieje się ze zgłoszeniem?
 
@@ -215,6 +242,7 @@ Stan lokalnych kontroli: **16 listopada 2026**. Bieżący status gałęzi `main`
 | Testy animacji i klawiatury | 4 grupy kontroli przeszły |
 | Profile zawodników | Wszystkie 182 starty dostępne w 10 profilach, komplet stron wyników, źródła, klawiatura i fotografie |
 | Archiwum IJF | Spójne 219 rekordów, działające filtry, CSV, udostępnianie i obsługa pustych lokat |
+| Droga po pas | Komplet 9 KYU, 73 nazwy technik, 87 pozycji wraz z podstawami; DAN, zapis powtórek, pełny druk, routing i 5 szerokości |
 | Szerokości | 320, 360, 390, 640, 768, 1024, 1440 px |
 | Konsola podczas testów funkcjonalnych | Bez błędów |
 | Ograniczony ruch | Działająca alternatywa bez przypinania |
@@ -226,7 +254,7 @@ Stan lokalnych kontroli: **16 listopada 2026**. Bieżący status gałęzi `main`
 ```mermaid
 flowchart LR
   G[Push lub pull request] --> B[Node 22: npm ci i build]
-  B --> P[Chromium: funkcje, profile, archiwum i ruch]
+  B --> P[Chromium: funkcje, profile, archiwum, ruch i pasy]
   P --> Z[Artefakty: zrzuty i raporty, 7 dni]
   P --> W[Artefakt: produkcyjny dist, 7 dni]
   G --> D[Audyt zależności: high i critical]
@@ -250,6 +278,7 @@ npm run build
 npm run test:e2e
 npm run test:people
 npm run test:results
+npm run test:belts
 npm run test:motion
 ```
 
@@ -279,6 +308,8 @@ npm run test:e2e
 | [Pełne profile](docs/profile-refresh.md) | Decyzje interfejsu i kontrola wszystkich startów |
 | [Przegląd fotografii](docs/athlete-photo-refresh.md) | Źródła, daty materiałów i brakujące portrety |
 | [Aktualizacja pierwszego ekranu](docs/hero-photo-update.md) | Źródło zdjęcia grupowego i kadrowanie |
+| [Wymagania na stopnie](docs/belt-requirements-research.md) | Właściwe regulaminy KYU i DAN, pełne nazwy i strony PDF |
+| [Droga po pas](docs/belt-guide-design.md) | Kierunek interfejsu, funkcje, zakres i weryfikacja |
 
 Unslop Local pozostaje w [`.agents/skills/unslop-local/`](.agents/skills/unslop-local/SKILL.md). Proces i materiały: [Damir Sokolovsky](https://x.com/heydamir), CC BY 4.0; adaptacja: [Dawid Zdunczyk](https://github.com/DawidZdunczyk/unslop).
 

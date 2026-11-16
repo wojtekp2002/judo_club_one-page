@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-11-16T17:30:30.131Z",
+  "kyu": 9,
+  "techniqueNames": 73,
+  "uniqueRequirements": 87,
+  "checks": [
+    "routing",
+    "all KYU requirements",
+    "cumulative syllabus",
+    "DAN kata",
+    "search",
+    "filters",
+    "persisted notes",
+    "reset confirmation",
+    "video boundary without autoplay",
+    "share and fallback",
+    "storage fallback",
+    "complete print program",
+    "reduced motion",
+    "mobile material selection",
+    "5 widths",
+    "no page errors"
+  ],
+  "limitations": [
+    "Player iframe is mocked in automated test; actual playback depends on YouTube/network",
+    "No claim that notes award a grade"
+  ]
+}
