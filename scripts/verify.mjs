@@ -4,8 +4,7 @@ import { chromium } from "playwright";
 
 const baseUrl = process.env.TEST_URL || "http://127.0.0.1:5173";
 const executablePath =
-  process.env.CHROME_PATH ||
-  "C:/Program Files/Google/Chrome/Application/chrome.exe";
+  process.env.CHROME_PATH || (process.platform === "win32" ? "C:/Program Files/Google/Chrome/Application/chrome.exe" : undefined);
 const browser = await chromium.launch({ executablePath, headless: true });
 const errors = [];
 const results = [];
@@ -115,7 +114,10 @@ try {
     );
     await page.keyboard.press("Escape");
     assert(!(await page.getByRole("dialog").isVisible()));
-    await page.getByRole("button", { name: "Wszystkie", exact: true }).click();
+    await page
+      .getByLabel("Filtruj aktualności")
+      .getByRole("button", { name: "Wszystkie", exact: true })
+      .click();
   });
 
   await check(
@@ -179,6 +181,7 @@ try {
   await check(
     "Galeria: otwieranie, następne zdjęcie klawiaturą, zamknięcie",
     async () => {
+      await page.getByText("Archiwum portretów klubu", { exact: true }).click();
       await page
         .getByRole("button", {
           name: "Otwórz zdjęcie: Julia Kowalczyk",
@@ -216,7 +219,7 @@ try {
       .locator("summary")
       .filter({ hasText: "Ile kosztują zajęcia?" })
       .click();
-    assert.match(await page.locator("details[open]").innerText(), /170 zł/);
+    assert.match(await page.locator(".faq-list details[open]").innerText(), /170 zł/);
     await page
       .locator("summary")
       .filter({ hasText: "Ile kosztują zajęcia?" })

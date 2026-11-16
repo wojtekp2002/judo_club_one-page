@@ -1,0 +1,65 @@
+name: Quality
+on:
+  push:
+    branches: [main, 'features/**', 'visual/**', 'codex/**']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build-and-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Browser regression, people and motion
+        shell: bash
+        run: |
+          npm run preview -- --port 5173 --strictPort > /tmp/polonia-preview.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          node --input-type=module -e 'for(let i=0;i<40;i++){try{if((await fetch("http://127.0.0.1:5173")).ok)process.exit(0)}catch{}await new Promise(r=>setTimeout(r,250))}process.exit(1)'
+          npm run test:e2e
+          npm run test:people
+          npm run test:motion
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: browser-reports
+          path: |
+            design-references/*verified.png
+            design-references/test-report.json
+            design-references/people/
+            design-references/motion-review/report.json
+          retention-days: 7
+      - uses: actions/upload-artifact@v6
+        with:
+          name: production-build
+          path: dist/
+          retention-days: 7
+  dependencies:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm audit --audit-level=high
+

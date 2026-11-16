@@ -26,6 +26,7 @@ import {
   Facebook,
 } from "lucide-react";
 import { club, locations, news, gallery, faqs, type NewsItem } from "./data";
+import People from "./People";
 import DojoJourney from "./DojoJourney";
 import usePageMotion from "./usePageMotion";
 
@@ -191,6 +192,7 @@ function App() {
               ["Klub", "#klub"],
               ["Treningi", "#treningi"],
               ["Aktualności", "#aktualnosci"],
+              ["Kadra", "#kadra"],
               ["Obozy", "#obozy"],
               ["Kontakt", "#kontakt"],
             ].map(([label, href]) => (
@@ -312,7 +314,7 @@ function App() {
               startujący w międzynarodowych turniejach. Łączy nas szacunek — do
               sportu, trenera i siebie nawzajem.
             </p>
-            <a className="text-link" href="#nasza-druzyna">
+            <a className="text-link" href="#zawodnicy">
               Poznaj ludzi Polonii
               <ArrowUpRight />
             </a>
@@ -646,47 +648,32 @@ function App() {
           </div>
         </section>
 
-        <section className="section shell team-section" id="nasza-druzyna">
-          <div className="section-heading">
-            <div>
-              <SectionLabel>Ludzie Polonii</SectionLabel>
-              <h2 className="editorial-title">
-                Ludzie, których
-                <br />
-                spotkasz na macie
-              </h2>
+        <People onJoin={openJoin} />
+        <section className="shell portrait-archive" id="nasza-druzyna">
+          <details>
+            <summary>Archiwum portretów klubu</summary>
+            <div className="gallery-grid">
+              {gallery.map((item, index) => (
+                <button
+                  key={item.src}
+                  onClick={() => setModal({ kind: "gallery", index })}
+                  aria-label={`Otwórz zdjęcie: ${item.caption}`}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    width="480"
+                    height="360"
+                  />
+                  <span>
+                    {item.caption}
+                    <ArrowUpRight />
+                  </span>
+                </button>
+              ))}
             </div>
-            <a
-              className="text-link"
-              href="http://www.judorybnik.pl/info/14/Trenerzy.html"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Poznaj kadrę klubu
-              <ArrowUpRight />
-            </a>
-          </div>
-          <div className="gallery-grid">
-            {gallery.map((item, index) => (
-              <button
-                key={item.src}
-                onClick={() => setModal({ kind: "gallery", index })}
-                aria-label={`Otwórz zdjęcie: ${item.caption}`}
-              >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  loading="lazy"
-                  width="480"
-                  height="360"
-                />
-                <span>
-                  {item.caption}
-                  <ArrowUpRight />
-                </span>
-              </button>
-            ))}
-          </div>
+          </details>
         </section>
 
         <section className="faq-section" id="pytania">
