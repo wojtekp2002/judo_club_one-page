@@ -22,7 +22,10 @@ export default function People({ onJoin }: { onJoin: () => void }) {
   const photograph = athlete.photos[photo];
   useEffect(() => {
     if (expanded) dialog.current?.showModal();
-    else { dialog.current?.close(); photoOpener.current?.focus({ preventScroll: true }); }
+    else {
+      dialog.current?.close();
+      photoOpener.current?.focus({ preventScroll: true });
+    }
     if (expanded) document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
@@ -168,6 +171,10 @@ export default function People({ onJoin }: { onJoin: () => void }) {
                     </li>
                   ))}
               </ol>
+              <a className="archive-cta" href="#wyniki">
+                Pełne archiwum startów
+                <ArrowRight />
+              </a>
               <div className="athlete-source">
                 <a
                   href={`https://www.ijf.org/judoka/${athlete.ijf}`}
@@ -194,7 +201,10 @@ export default function People({ onJoin }: { onJoin: () => void }) {
           <div className="athlete-photo-strip">
             <button
               className="athlete-action-photo"
-            onClick={(event) => { photoOpener.current = event.currentTarget; setExpanded(true); }}
+              onClick={(event) => {
+                photoOpener.current = event.currentTarget;
+                setExpanded(true);
+              }}
               aria-label={`Powiększ zdjęcie: ${athlete.name}`}
             >
               <img
@@ -350,7 +360,10 @@ export default function People({ onJoin }: { onJoin: () => void }) {
       <dialog
         ref={dialog}
         className="people-photo-dialog"
-        onCancel={(event) => { event.preventDefault(); setExpanded(false); }}
+        onCancel={(event) => {
+          event.preventDefault();
+          setExpanded(false);
+        }}
         onClick={(event) => {
           if (event.target === event.currentTarget) setExpanded(false);
         }}

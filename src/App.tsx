@@ -26,6 +26,7 @@ import {
   Facebook,
 } from "lucide-react";
 import { club, locations, news, gallery, faqs, type NewsItem } from "./data";
+import ResultsArchive from "./ResultsArchive";
 import People from "./People";
 import DojoJourney from "./DojoJourney";
 import usePageMotion from "./usePageMotion";
@@ -649,6 +650,7 @@ function App() {
         </section>
 
         <People onJoin={openJoin} />
+        <ResultsArchive />
         <section className="shell portrait-archive" id="nasza-druzyna">
           <details>
             <summary>Archiwum portretów klubu</summary>
