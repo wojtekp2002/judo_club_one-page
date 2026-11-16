@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-16T13:24:38.967Z",
+  "baseUrl": "http://127.0.0.1:5173",
+  "checks": [
+    "Wszystkie lokalne zdjęcia i fonty się ładują",
+    "4 bazy: poprawne adresy, godziny i reset filtra grupy",
+    "Filtry i szczegóły aktualności",
+    "Formularz: walidacja, treść maila, kopiowanie, edycja i Escape",
+    "Galeria: otwieranie, następne zdjęcie klawiaturą, zamknięcie",
+    "Półkolonie 2027, dokumenty i FAQ",
+    "Responsywność 1440, 1024, 768, 640, 390, 360 i 320 px",
+    "Menu mobilne i nawigacja do sekcji",
+    "Brak błędów konsoli i JavaScript"
+  ],
+  "errors": []
+}

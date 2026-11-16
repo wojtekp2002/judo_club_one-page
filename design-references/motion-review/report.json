@@ -1,0 +1,10 @@
+{
+  "date": "2026-11-16T13:26:11.633Z",
+  "checks": [
+    "Przewijanie: 3 etapy, narastające odsłanianie pasa, cała treść w kadrze",
+    "Wybór etapu myszą i klawiaturą, fokus pozostaje na wybranym kroku",
+    "Historia na 768/390/320 px i ręczny wybór na niskim ekranie",
+    "prefers-reduced-motion: bez przypinania i animacji, działające kroki"
+  ],
+  "errors": []
+}

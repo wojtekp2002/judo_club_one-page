@@ -1,0 +1,1074 @@
+/* Editorial refinement and motion. The SVG obi is the single scroll-led story. */
+.editorial-title {
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(36px, 3.8vw, 54px);
+  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+.section-label {
+  font-size: 12px;
+}
+.text-link,
+.button {
+  font-size: 13px;
+}
+.header::after {
+  position: absolute;
+  content: "";
+  inset: auto 0 -1px;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(var(--page-progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+.hero h1 > .hero-line {
+  display: block;
+  overflow: clip;
+  color: var(--paper);
+  padding-block: 0.04em;
+  margin-block: -0.04em;
+}
+.hero-line > span {
+  display: block;
+  animation: hero-lettering 900ms var(--ease) both;
+}
+.hero-line:nth-child(2) > span {
+  animation-delay: 90ms;
+}
+.hero-line:last-child > span {
+  animation-delay: 180ms;
+  color: #e34549;
+}
+.hero-content > .section-label,
+.hero-content > p,
+.hero-actions {
+  animation: quiet-arrival 700ms var(--ease) both;
+}
+.hero-content > p {
+  animation-delay: 300ms;
+}
+.hero-actions {
+  animation-delay: 390ms;
+}
+.hero-content > p {
+  font-size: 15px;
+}
+.hero-caption {
+  font-size: 11px;
+}
+.hero-photo {
+  animation: hero-photograph 1200ms var(--ease) both;
+}
+.club-facts {
+  background: var(--paper);
+}
+.facts-inner {
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 24px;
+}
+.facts-inner .district-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.facts-inner p {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.facts-inner p span {
+  color: #a6a99e;
+  margin-inline: 8px;
+}
+.facts-inner > a {
+  padding: 0;
+  font-size: 11px;
+  gap: 12px;
+  white-space: nowrap;
+}
+.facts-inner > a svg {
+  width: 18px;
+  height: 18px;
+}
+.intro {
+  gap: 88px;
+}
+.intro .lead {
+  line-height: 1.75;
+}
+.intro-copy > p {
+  font-size: 14px;
+}
+.intro-image {
+  padding-bottom: 40px;
+}
+.intro-image img {
+  object-position: 60% center;
+}
+.intro-image figcaption {
+  font-size: 11px;
+}
+.section-heading > p {
+  font-size: 14px;
+}
+.location-panel {
+  animation: state-arrival 300ms var(--ease);
+}
+.location-tabs button,
+.schedule-heading > h3 {
+  font-size: 14px;
+}
+.location-neighborhood,
+.location-info > p {
+  font-size: 12px;
+}
+.schedule-index {
+  font-size: 20px;
+}
+.schedule-row {
+  min-height: 72px;
+}
+.schedule-time {
+  font-size: 14px;
+}
+.schedule-note,
+.small-hall-note {
+  font-size: 12px;
+}
+.schedule-bottom > .text-link,
+.training-bottom {
+  font-size: 11px;
+}
+.select-wrap select {
+  font-size: 12px;
+}
+
+/* One feature story and a compact reading column replace identical news cards. */
+.news-section .section-heading {
+  margin-bottom: 32px;
+}
+.news-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 56px;
+  animation: state-arrival 280ms var(--ease);
+}
+.news-editorial {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+.news-editorial .news-card:first-child {
+  grid-row: span 2;
+}
+.news-editorial .news-card:first-child .news-image-button {
+  aspect-ratio: 1.5;
+}
+.news-editorial .news-card:first-child h3 {
+  font-size: 28px;
+  letter-spacing: -0.025em;
+}
+.news-editorial .news-card:not(:first-child) {
+  display: grid;
+  grid-template-columns: 156px minmax(0, 1fr);
+  column-gap: 24px;
+  row-gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.news-editorial .news-card:not(:first-child) .news-image-button {
+  aspect-ratio: auto;
+  height: 180px;
+  grid-row: span 3;
+}
+.news-editorial .news-card:not(:first-child) .news-meta {
+  margin: 0;
+  flex-wrap: wrap;
+  font-size: 10px;
+}
+.news-editorial .news-card:not(:first-child) h3 {
+  margin: 0;
+  font-size: 21px;
+}
+.news-editorial .news-card:not(:first-child) > p {
+  margin: 0;
+  font-size: 12px;
+}
+.news-card > p {
+  font-size: 14px;
+}
+.news-meta,
+.news-filters button,
+.news-archive-note {
+  font-size: 11px;
+}
+.news-filters button {
+  min-height: 44px;
+}
+.news-image-button {
+  background: #e4e1d8;
+}
+.camp-poster {
+  transform: none;
+  margin: 0;
+  border-top: 4px solid #e34549;
+}
+.poster-top {
+  font-size: 12px;
+}
+.poster-details {
+  border-bottom: 1px solid #ffffff35;
+}
+.poster-details > span {
+  font-size: 12px;
+}
+.poster-footer {
+  font-size: 12px;
+}
+.camp-inner {
+  gap: 104px;
+}
+.gallery-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+  align-items: start;
+}
+.gallery-grid > button:nth-child(even) {
+  margin-top: 48px;
+}
+.gallery-grid img {
+  height: auto;
+  aspect-ratio: 0.72;
+  object-position: center;
+}
+.gallery-grid > button:last-child img {
+  aspect-ratio: 0.88;
+  object-position: 55% center;
+}
+.gallery-grid > button > span {
+  font-size: 12px;
+}
+.team-section {
+  padding-bottom: 88px;
+}
+.faq-list summary {
+  font-size: 14px;
+}
+.faq-list details > p {
+  font-size: 14px;
+}
+.faq-inner {
+  grid-template-columns: 1fr 1.55fr;
+  gap: 88px;
+}
+.contact-inner .editorial-title {
+  font-size: clamp(40px, 4.5vw, 64px);
+  line-height: 1.12;
+}
+.contact-inner {
+  padding-block: 80px;
+}
+.dialog[open] {
+  animation: state-arrival 220ms var(--ease);
+}
+
+/* Flat, stitched obi — no 3D, fabricated athlete imagery, or looping effects. */
+.dojo-journey {
+  position: relative;
+  height: 228svh;
+  background: var(--ink);
+  color: var(--paper);
+  --journey-progress: 0.08;
+}
+.journey-sticky {
+  position: sticky;
+  top: 88px;
+  height: calc(100svh - 88px);
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  padding-block: 40px;
+  overflow: clip;
+}
+.journey-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+.journey-eyebrow {
+  font-size: 12px;
+  color: #b9bcb2;
+  margin-bottom: 16px;
+}
+.journey-heading h2 {
+  font:
+    400 clamp(32px, 3.6vw, 48px) / 1.14 "Manrope",
+    sans-serif;
+  letter-spacing: -0.045em;
+}
+.journey-instruction {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 11px;
+  color: #b9bcb2;
+}
+.journey-layout {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.obi-canvas {
+  background: #20241f;
+  border-top: 1px solid #555a4b;
+  position: relative;
+}
+.obi-canvas::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e34549;
+  transform: scaleX(var(--journey-progress));
+  transform-origin: left;
+}
+.obi-canvas-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 28px 0;
+  font-size: 11px;
+  color: #b2b8a9;
+}
+.obi-illustration {
+  width: 100%;
+  height: 280px;
+  margin-block: 16px;
+  overflow: visible;
+}
+.obi-guide {
+  fill: none;
+  stroke: #686e5d;
+  stroke-width: 1;
+  stroke-dasharray: 3 6;
+}
+.obi-edge {
+  fill: none;
+  stroke: #131610;
+  stroke-width: 38;
+  stroke-linejoin: round;
+}
+.obi-band {
+  fill: none;
+  stroke: #ecebdd;
+  stroke-width: 30;
+  stroke-linejoin: round;
+}
+.obi-seam-edge {
+  fill: none;
+  stroke: #b9bca8;
+  stroke-width: 23;
+}
+.obi-seam-inner {
+  fill: none;
+  stroke: #ecebdd;
+  stroke-width: 21;
+}
+.obi-label {
+  fill: #c9282f;
+}
+.obi-knot-group {
+  opacity: var(--knot-opacity, 0);
+}
+.obi-knot {
+  fill: #d6d8c7;
+  stroke: #252a20;
+  stroke-width: 2;
+}
+.obi-knot-seam {
+  fill: none;
+  stroke: #9b9f8b;
+  stroke-width: 1;
+}
+.obi-marker > circle:first-child {
+  fill: #e34549;
+  stroke: #20241f;
+  stroke-width: 4;
+}
+.obi-marker > circle:last-child {
+  fill: var(--paper);
+  stroke: none;
+}
+.obi-note {
+  font:
+    11px "Manrope",
+    sans-serif;
+  fill: #b2b8a9;
+  letter-spacing: 0;
+}
+.obi-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 10px;
+  color: #bdc1b4;
+  padding: 0 28px 24px;
+}
+.obi-signature {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.journey-count {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.journey-count > span:first-child {
+  font:
+    600 60px/0.9 "Barlow Condensed",
+    sans-serif;
+  color: #e34549;
+  font-variant-numeric: tabular-nums;
+}
+.journey-count > span:last-child {
+  font-size: 11px;
+  color: #aab09f;
+}
+.journey-step-copy {
+  animation: state-arrival 400ms var(--ease);
+}
+.journey-step-copy h3 {
+  font-size: 23px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.journey-step-copy p {
+  font-size: 13px;
+  line-height: 1.85;
+  color: #c0c4b7;
+  margin-top: 16px;
+  min-height: 96px;
+}
+.journey-detail {
+  display: block;
+  font-size: 11px;
+  color: #a9b19b;
+  margin-top: 16px;
+}
+.journey-tabs {
+  margin-top: 28px;
+  border-top: 1px solid #4a5040;
+}
+.journey-tabs > button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  border-bottom: 1px solid #4a5040;
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  background: transparent;
+  color: #b1b8a4;
+  transition: color 0.18s;
+}
+.journey-tabs > button > span:first-child {
+  font-size: 10px;
+  width: 20px;
+}
+.journey-tab-mark {
+  margin-left: auto;
+  width: 4px;
+  height: 4px;
+  background: #737d64;
+}
+.journey-tabs > button[aria-selected="true"] {
+  color: var(--paper);
+}
+.journey-tabs > button[aria-selected="true"] > span:first-child {
+  color: #e34549;
+}
+.journey-tabs > button[aria-selected="true"] .journey-tab-mark {
+  height: 12px;
+  background: #e34549;
+}
+.journey-tabs > button:hover {
+  color: white;
+}
+.journey-join {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: transparent;
+  color: var(--paper);
+  padding: 16px 0 0;
+  font-size: 11px;
+  text-align: left;
+  line-height: 1.6;
+}
+.journey-join:hover {
+  color: #ee9294;
+}
+.dojo-journey :focus-visible {
+  outline-color: #f5f3ee;
+}
+.dojo-journey[data-static="true"] {
+  height: auto;
+}
+.dojo-journey[data-static="true"] .journey-sticky {
+  position: relative;
+  top: 0;
+  height: auto;
+  min-height: 0;
+  padding-block: 80px;
+}
+.dojo-journey[data-static="true"] .journey-instruction {
+  font-size: 0;
+}
+.dojo-journey[data-static="true"] .journey-instruction::after {
+  content: "Wybierz krok poniżej";
+  font-size: 11px;
+}
+.dojo-journey[data-static="true"] .journey-instruction svg {
+  display: none;
+}
+
+@keyframes hero-lettering {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes quiet-arrival {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hero-photograph {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes state-arrival {
+  from {
+    opacity: 0.25;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 1600px) {
+  .journey-shell {
+    max-width: 1280px;
+  }
+  .obi-illustration {
+    height: 340px;
+  }
+}
+@media (max-width: 1150px) {
+  .facts-inner {
+    gap: 24px;
+  }
+  .facts-inner .district-label {
+    display: none;
+  }
+  .intro {
+    gap: 56px;
+  }
+  .journey-layout {
+    gap: 32px;
+    grid-template-columns: 1.4fr 1fr;
+  }
+  .journey-heading {
+    margin-bottom: 28px;
+  }
+  .journey-step-copy p {
+    font-size: 12px;
+  }
+  .news-grid {
+    gap: 32px;
+  }
+  .news-editorial .news-card:not(:first-child) {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .news-editorial .news-card:not(:first-child) h3 {
+    font-size: 18px;
+  }
+  .camp-inner {
+    gap: 64px;
+  }
+}
+@media (max-width: 900px) {
+  .facts-inner p {
+    font-size: 11px;
+  }
+  .facts-inner p span {
+    margin-inline: 4px;
+  }
+  .intro {
+    gap: 40px;
+  }
+  .editorial-title {
+    font-size: 36px;
+  }
+  .journey-sticky {
+    top: 76px;
+    height: calc(100svh - 76px);
+    padding-block: 28px;
+  }
+  .journey-layout {
+    gap: 28px;
+    grid-template-columns: 1.1fr 1fr;
+  }
+  .journey-heading h2 {
+    font-size: 36px;
+  }
+  .journey-instruction {
+    max-width: 160px;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  .journey-count > span:first-child {
+    font-size: 48px;
+  }
+  .journey-count {
+    margin-bottom: 16px;
+  }
+  .journey-step-copy h3 {
+    font-size: 20px;
+  }
+  .journey-tabs {
+    margin-top: 20px;
+  }
+  .obi-canvas-meta {
+    padding: 20px 20px 0;
+    font-size: 10px;
+  }
+  .obi-illustration {
+    height: 240px;
+  }
+  .obi-caption {
+    padding: 0 20px 20px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .news-editorial {
+    grid-template-columns: 1fr 1fr;
+  }
+  .news-editorial .news-card:not(:first-child) {
+    display: block;
+    padding-top: 0;
+    border: 0;
+  }
+  .news-editorial .news-card:first-child {
+    grid-row: auto;
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 16px 28px;
+  }
+  .news-editorial .news-card:first-child .news-image-button {
+    grid-row: span 3;
+    aspect-ratio: auto;
+    height: 280px;
+  }
+  .news-editorial .news-card:first-child .news-meta {
+    margin: 0;
+    align-self: end;
+  }
+  .news-editorial .news-card:first-child h3 {
+    font-size: 26px;
+    margin: 0;
+  }
+  .news-editorial .news-card:first-child > p {
+    margin: 0;
+    font-size: 13px;
+  }
+  .news-editorial .news-card:not(:first-child) .news-image-button {
+    aspect-ratio: 1.5;
+    height: auto;
+  }
+  .news-editorial .news-card:not(:first-child) .news-meta {
+    margin-top: 16px;
+  }
+  .news-editorial .news-card:not(:first-child) h3 {
+    margin-top: 12px;
+    font-size: 20px;
+  }
+  .news-editorial .news-card:not(:first-child) > p {
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .gallery-grid {
+    gap: 16px;
+  }
+  .gallery-grid > button:nth-child(even) {
+    margin-top: 32px;
+  }
+  .gallery-grid > button > span {
+    font-size: 11px;
+  }
+  .faq-inner {
+    gap: 40px;
+  }
+  .faq-inner h2 {
+    font-size: 32px;
+  }
+}
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: 80px;
+  }
+  .hero-content > p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .hero-actions {
+    gap: 20px;
+  }
+  .hero-caption {
+    max-width: 220px;
+    font-size: 9px;
+    text-align: right;
+  }
+  .facts-inner {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    padding-block: 24px;
+  }
+  .facts-inner p {
+    font-size: 12px;
+    line-height: 1.8;
+    max-width: 330px;
+  }
+  .facts-inner > a {
+    display: flex;
+    font-size: 12px;
+  }
+  .facts-inner p span {
+    font-size: 11px;
+    margin-inline: 4px;
+  }
+  .editorial-title {
+    font-size: 34px;
+    line-height: 1.16;
+  }
+  .intro {
+    gap: 32px;
+  }
+  .intro-copy .lead {
+    font-size: 16px;
+  }
+  .section-label {
+    font-size: 11px;
+  }
+  .text-link {
+    font-size: 12px;
+  }
+  .button {
+    font-size: 12px;
+  }
+  .intro-image figcaption {
+    font-size: 10px;
+  }
+  .section-heading {
+    gap: 24px;
+  }
+  .section-heading > p {
+    font-size: 13px;
+  }
+  .location-tabs button {
+    font-size: 13px;
+  }
+  .schedule-heading > h3 {
+    font-size: 13px;
+  }
+  .select-wrap select {
+    font-size: 10px;
+    max-width: 164px;
+  }
+  .schedule-row p {
+    max-width: 136px;
+  }
+  .schedule-time {
+    font-size: 12px;
+  }
+  .schedule-note,
+  .small-hall-note {
+    font-size: 11px;
+  }
+  .training-bottom {
+    font-size: 11px;
+    line-height: 1.8;
+  }
+  .training-bottom > a {
+    align-items: flex-start;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .news-editorial .news-card:first-child {
+    display: block;
+    grid-column: auto;
+  }
+  .news-editorial .news-card:first-child .news-image-button {
+    height: auto;
+    aspect-ratio: 1.45;
+  }
+  .news-editorial .news-card:first-child .news-meta {
+    margin-top: 20px;
+  }
+  .news-editorial .news-card:first-child h3 {
+    font-size: 25px;
+    margin-top: 12px;
+  }
+  .news-editorial .news-card:first-child > p {
+    margin-top: 12px;
+  }
+  .news-editorial .news-card:not(:first-child) {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 12px 16px;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+  .news-editorial .news-card:not(:first-child) .news-image-button {
+    grid-row: span 2;
+    height: 140px;
+    aspect-ratio: auto;
+  }
+  .news-editorial .news-card:not(:first-child) .news-meta {
+    margin: 0;
+    font-size: 10px;
+    gap: 8px;
+    align-self: end;
+  }
+  .news-editorial .news-card:not(:first-child) h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  .news-editorial .news-card:not(:first-child) > p {
+    grid-column: 1/-1;
+    margin: 0;
+    font-size: 13px;
+  }
+  .news-meta {
+    font-size: 10px;
+  }
+  .camp-inner {
+    gap: 36px;
+  }
+  .camp-poster {
+    margin: 0;
+    padding-top: 24px;
+  }
+  .camp-poster h3 {
+    font-size: 56px;
+    margin-top: 24px;
+  }
+  .poster-details {
+    margin-top: 24px;
+    padding-bottom: 24px;
+    gap: 24px;
+  }
+  .poster-details strong {
+    font-size: 13px;
+  }
+  .poster-top,
+  .poster-details > span,
+  .poster-footer {
+    font-size: 11px;
+  }
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 16px;
+    margin-top: 32px;
+  }
+  .gallery-grid > button:nth-child(even) {
+    margin-top: 28px;
+  }
+  .gallery-grid > button > span {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .team-section {
+    padding-bottom: 64px;
+  }
+  .faq-inner {
+    grid-template-columns: 1fr;
+  }
+  .faq-inner h2 {
+    font-size: 34px;
+    max-width: none;
+  }
+  .contact-inner {
+    padding-block: 56px;
+  }
+  .contact-inner .editorial-title {
+    font-size: 40px;
+  }
+  .main-nav.is-open {
+    animation: state-arrival 200ms var(--ease);
+  }
+  .dojo-journey {
+    height: 260svh;
+  }
+  .journey-sticky {
+    top: 72px;
+    height: calc(100svh - 72px);
+    min-height: 0;
+    padding-block: 24px;
+  }
+  .journey-heading {
+    margin-bottom: 16px;
+  }
+  .journey-eyebrow {
+    font-size: 10px;
+    margin-bottom: 12px;
+  }
+  .journey-heading h2 {
+    font-size: 29px;
+    line-height: 1.1;
+  }
+  .journey-instruction {
+    display: none;
+  }
+  .journey-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .obi-canvas-meta {
+    padding: 12px 16px 0;
+    font-size: 9px;
+  }
+  .obi-illustration {
+    height: 128px;
+    margin-block: 4px;
+  }
+  .obi-caption {
+    flex-direction: row;
+    padding: 0 16px 12px;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+  .obi-caption > span:first-child {
+    max-width: 220px;
+  }
+  .journey-count {
+    margin-bottom: 12px;
+  }
+  .journey-count > span:first-child {
+    font-size: 36px;
+  }
+  .journey-count > span:last-child {
+    font-size: 10px;
+  }
+  .journey-step-copy h3 {
+    font-size: 20px;
+  }
+  .journey-step-copy p {
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 12px;
+    min-height: 64px;
+  }
+  .journey-detail {
+    font-size: 10px;
+    margin-top: 12px;
+  }
+  .journey-tabs {
+    margin-top: 16px;
+  }
+  .journey-tabs > button {
+    font-size: 11px;
+    min-height: 44px;
+  }
+  .journey-join {
+    font-size: 11px;
+    min-height: 44px;
+    padding-top: 12px;
+  }
+  .obi-note {
+    display: none;
+  }
+  .dojo-journey[data-static="true"] .journey-sticky {
+    padding-block: 56px;
+  }
+}
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 72px;
+  }
+  .journey-heading h2 {
+    font-size: 26px;
+  }
+  .journey-step-copy p {
+    font-size: 11px;
+  }
+  .obi-caption {
+    font-size: 8px;
+  }
+  .facts-inner p {
+    font-size: 11px;
+  }
+  .select-wrap select {
+    max-width: 140px;
+  }
+  .schedule-time {
+    font-size: 11px;
+  }
+  .news-editorial .news-card:not(:first-child) {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .news-editorial .news-card:not(:first-child) h3 {
+    font-size: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .hero-line > span,
+  .hero-photo,
+  .hero-content > p,
+  .hero-actions {
+    opacity: 1;
+    transform: none;
+  }
+  .dojo-journey {
+    height: auto;
+  }
+  .journey-sticky {
+    position: relative;
+    top: 0;
+    height: auto;
+    min-height: 0;
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unslop Local"
+  short_description: "Polish local UI with restricted capture and video helpers"
+  default_prompt: "Use $unslop-local on this screen so it stops looking AI-generated."
