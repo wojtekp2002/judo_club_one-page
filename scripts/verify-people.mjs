@@ -3,8 +3,7 @@ import fs from "node:fs/promises";
 import { chromium } from "playwright";
 const browser = await chromium.launch({
   executablePath:
-    process.env.CHROME_PATH ||
-    "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    process.env.CHROME_PATH || (process.platform === "win32" ? "C:/Program Files/Google/Chrome/Application/chrome.exe" : undefined),
   headless: true,
 });
 await fs.mkdir("design-references/people", { recursive: true });

@@ -5,8 +5,7 @@ import { chromium } from "playwright";
 const baseUrl = process.env.TEST_URL || "http://127.0.0.1:5173";
 const browser = await chromium.launch({
   executablePath:
-    process.env.CHROME_PATH ||
-    "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    process.env.CHROME_PATH || (process.platform === "win32" ? "C:/Program Files/Google/Chrome/Application/chrome.exe" : undefined),
   headless: true,
 });
 const folder = "design-references/motion-review";

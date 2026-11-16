@@ -4,8 +4,7 @@ import { chromium } from "playwright";
 
 const baseUrl = process.env.TEST_URL || "http://127.0.0.1:5173";
 const executablePath =
-  process.env.CHROME_PATH ||
-  "C:/Program Files/Google/Chrome/Application/chrome.exe";
+  process.env.CHROME_PATH || (process.platform === "win32" ? "C:/Program Files/Google/Chrome/Application/chrome.exe" : undefined);
 const browser = await chromium.launch({ executablePath, headless: true });
 const errors = [];
 const results = [];
