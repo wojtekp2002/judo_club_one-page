@@ -47,6 +47,7 @@ jobs:
             design-references/profiles/
             design-references/belts/
             test-results/belts/
+            test-results/motion/
             design-references/results/
             design-references/motion-review/report.json
           retention-days: 7

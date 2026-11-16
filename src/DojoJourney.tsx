@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const steps = [
   {
@@ -22,130 +22,65 @@ const steps = [
   },
 ];
 
-// A single flat ribbon loops into an obi knot. It illustrates joining the club,
-// rather than a grading scale or instructions for a judo technique.
+// A stitched obi marks the visitor's chosen step, independently of page scroll.
 const ribbon =
   "M 72 306 C 174 306 168 180 278 168 C 369 158 467 185 457 253 C 448 311 334 315 303 269 C 267 215 370 187 431 221 C 484 250 507 306 636 306";
 const restingProgress = [0.12, 0.57, 1];
 
 export default function DojoJourney({ onJoin }: { onJoin: () => void }) {
-  const sectionRef = useRef<HTMLElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const markerRef = useRef<SVGGElement>(null);
-  const maskRef = useRef<SVGPathElement>(null);
+  const progressRef = useRef(restingProgress[0]);
   const [step, setStep] = useState(0);
-  const [manualMode, setManualMode] = useState(false);
 
   useEffect(() => {
-    const section = sectionRef.current;
+    const path = pathRef.current;
+    if (!path) return;
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!section) return;
+    const length = path.getTotalLength();
+    const start = progressRef.current;
+    const target = restingProgress[step];
+    const started = performance.now();
     let frame = 0;
-    const usesManualMode = () =>
-      preference.matches ||
-      window.innerHeight < (window.innerWidth <= 640 ? 800 : 880);
-
     function draw(progress: number) {
-      const path = pathRef.current;
-      if (!path) return;
-      const visible = 0.08 + progress * 0.92;
-      maskRef.current?.setAttribute("stroke-dashoffset", String(1 - visible));
-      const point = path.getPointAtLength(path.getTotalLength() * visible);
+      progressRef.current = progress;
+      const point = path!.getPointAtLength(length * progress);
       markerRef.current?.setAttribute(
         "transform",
         `translate(${point.x} ${point.y})`,
       );
-      section!.style.setProperty("--journey-progress", String(visible));
-      section!.style.setProperty(
-        "--knot-opacity",
-        String(Math.min(1, Math.max(0, (progress - 0.58) / 0.18))),
-      );
     }
-
-    function update() {
-      frame = 0;
-      if (usesManualMode()) return;
-      const rect = section!.getBoundingClientRect();
-      const stickyTop = window.innerWidth <= 640 ? 72 : 88;
-      const travel = Math.max(1, rect.height - window.innerHeight + stickyTop);
-      const progress = Math.min(
-        1,
-        Math.max(0, (stickyTop - rect.top) / travel),
-      );
-      draw(progress);
-      setStep(progress < 0.3 ? 0 : progress < 0.7 ? 1 : 2);
+    function animate(now: number) {
+      const elapsed = Math.min(1, (now - started) / 440);
+      draw(start + (target - start) * (1 - (1 - elapsed) ** 3));
+      if (elapsed < 1) frame = requestAnimationFrame(animate);
     }
-
-    function schedule() {
-      if (!frame) frame = requestAnimationFrame(update);
+    function reduceMotion() {
+      if (preference.matches) {
+        cancelAnimationFrame(frame);
+        draw(target);
+      }
     }
-    function preferenceChanged() {
-      const manual = usesManualMode();
-      setManualMode(manual);
-      if (manual) {
-        draw(1);
-        setStep(0);
-        const path = pathRef.current;
-        if (path) {
-          const point = path.getPointAtLength(
-            path.getTotalLength() * restingProgress[0],
-          );
-          markerRef.current?.setAttribute(
-            "transform",
-            `translate(${point.x} ${point.y})`,
-          );
-        }
-      } else schedule();
-    }
-
-    preferenceChanged();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", preferenceChanged);
-    preference.addEventListener("change", preferenceChanged);
+    if (preference.matches || start === target) draw(target);
+    else frame = requestAnimationFrame(animate);
+    preference.addEventListener("change", reduceMotion);
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", preferenceChanged);
-      preference.removeEventListener("change", preferenceChanged);
+      preference.removeEventListener("change", reduceMotion);
     };
-  }, []);
+  }, [step]);
 
   function selectStep(index: number) {
-    if (manualMode) {
-      setStep(index);
-      const path = pathRef.current;
-      if (path) {
-        const point = path.getPointAtLength(
-          path.getTotalLength() * restingProgress[index],
-        );
-        markerRef.current?.setAttribute(
-          "transform",
-          `translate(${point.x} ${point.y})`,
-        );
-      }
-      return;
-    }
-    const section = sectionRef.current;
-    if (!section) return;
-    const stickyTop = window.innerWidth <= 640 ? 72 : 88;
-    const travel = section.offsetHeight - window.innerHeight + stickyTop;
-    const top =
-      section.getBoundingClientRect().top + window.scrollY - stickyTop;
-    window.scrollTo({
-      top: top + travel * [0, 0.5, 0.98][index],
-      behavior: "smooth",
-    });
+    setStep(index);
   }
 
   return (
     <section
       className="dojo-journey"
-      ref={sectionRef}
       id="pierwszy-trening"
-      data-static={manualMode}
       aria-labelledby="journey-title"
     >
-      <div className="journey-sticky">
+      <div className="journey-panel">
         <div className="shell journey-shell">
           <div className="journey-heading">
             <div>
@@ -157,9 +92,57 @@ export default function DojoJourney({ onJoin }: { onJoin: () => void }) {
               </h2>
             </div>
             <p className="journey-instruction">
-              <ArrowDown />
-              Przewijaj i poznaj kolejne kroki
+              Wybierz krok. We własnym tempie.
             </p>
+          </div>
+          <div
+            className="journey-tabs"
+            role="tablist"
+            aria-label="Kroki przed pierwszym treningiem"
+          >
+            {steps.map((item, index) => (
+              <button
+                id={`journey-tab-${index}`}
+                key={item.name}
+                role="tab"
+                aria-selected={step === index}
+                aria-controls="journey-step"
+                tabIndex={step === index ? 0 : -1}
+                onClick={() => selectStep(index)}
+                onKeyDown={(event) => {
+                  if (
+                    [
+                      "ArrowRight",
+                      "ArrowDown",
+                      "ArrowLeft",
+                      "ArrowUp",
+                      "Home",
+                      "End",
+                    ].includes(event.key)
+                  ) {
+                    event.preventDefault();
+                    const next =
+                      event.key === "Home"
+                        ? 0
+                        : event.key === "End"
+                          ? 2
+                          : (index +
+                              (["ArrowLeft", "ArrowUp"].includes(event.key)
+                                ? 2
+                                : 1)) %
+                            3;
+                    selectStep(next);
+                    document
+                      .getElementById(`journey-tab-${next}`)
+                      ?.focus({ preventScroll: true });
+                  }
+                }}
+              >
+                <span>0{index + 1}</span>
+                <span className="journey-tab-label">{item.name}</span>
+                <span className="journey-tab-mark" aria-hidden="true" />
+              </button>
+            ))}
           </div>
           <div className="journey-layout">
             <div className="obi-canvas">
@@ -172,29 +155,8 @@ export default function DojoJourney({ onJoin }: { onJoin: () => void }) {
                 viewBox="0 100 720 300"
                 aria-hidden="true"
               >
-                <defs>
-                  <mask
-                    id="obi-draw-mask"
-                    maskUnits="userSpaceOnUse"
-                    x="0"
-                    y="0"
-                    width="720"
-                    height="440"
-                  >
-                    <path
-                      ref={maskRef}
-                      d={ribbon}
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="40"
-                      pathLength="1"
-                      strokeDasharray="1"
-                      strokeDashoffset="0.92"
-                    />
-                  </mask>
-                </defs>
                 <path className="obi-guide" d={ribbon} ref={pathRef} />
-                <g mask="url(#obi-draw-mask)">
+                <g>
                   <path className="obi-edge" d={ribbon} />
                   <path className="obi-band" d={ribbon} />
                   <path className="obi-seam-edge" d={ribbon} />
@@ -249,55 +211,6 @@ export default function DojoJourney({ onJoin }: { onJoin: () => void }) {
                 <h3>{steps[step].title}</h3>
                 <p>{steps[step].text}</p>
                 <span className="journey-detail">{steps[step].detail}</span>
-              </div>
-              <div
-                className="journey-tabs"
-                role="tablist"
-                aria-label="Kroki przed pierwszym treningiem"
-              >
-                {steps.map((item, index) => (
-                  <button
-                    id={`journey-tab-${index}`}
-                    key={item.name}
-                    role="tab"
-                    aria-selected={step === index}
-                    aria-controls="journey-step"
-                    tabIndex={step === index ? 0 : -1}
-                    onClick={() => selectStep(index)}
-                    onKeyDown={(event) => {
-                      if (
-                        [
-                          "ArrowRight",
-                          "ArrowDown",
-                          "ArrowLeft",
-                          "ArrowUp",
-                          "Home",
-                          "End",
-                        ].includes(event.key)
-                      ) {
-                        event.preventDefault();
-                        const next =
-                          event.key === "Home"
-                            ? 0
-                            : event.key === "End"
-                              ? 2
-                              : (index +
-                                  (["ArrowLeft", "ArrowUp"].includes(event.key)
-                                    ? 2
-                                    : 1)) %
-                                3;
-                        selectStep(next);
-                        document
-                          .getElementById(`journey-tab-${next}`)
-                          ?.focus({ preventScroll: true });
-                      }
-                    }}
-                  >
-                    <span>0{index + 1}</span>
-                    {item.name}
-                    <span className="journey-tab-mark" aria-hidden="true" />
-                  </button>
-                ))}
               </div>
               <button className="journey-join" onClick={onJoin}>
                 Porozmawiajmy o pierwszych zajęciach

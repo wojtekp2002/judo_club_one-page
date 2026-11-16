@@ -1,5 +1,7 @@
 # Drugi audyt i rozwinięcie ruchu — 16.11.2026
 
+> Dokument historyczny. Na późniejszą prośbę użytkownika zastąpiono sterowanie przewijaniem ręcznym wyborem trzech kroków, bez przypinania i sztucznej wysokości. Obecny wariant i jego kontrolę opisuje [Swobodne przewijanie](motion-controls.md). Poniższe wyniki i nagranie dotyczą wcześniejszej implementacji.
+
 ## Film referencyjny
 
 Przeanalizowano dostarczony film 1440×900, 46,48 s. Kontaktowe arkusze klatek zapisano w `design-references/motion-reference/`.

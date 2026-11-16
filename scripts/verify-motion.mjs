@@ -1,190 +1,191 @@
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import { chromium } from "playwright";
-
-const baseUrl = process.env.TEST_URL || "http://127.0.0.1:5173";
 const browser = await chromium.launch({
   executablePath:
-    process.env.CHROME_PATH || (process.platform === "win32" ? "C:/Program Files/Google/Chrome/Application/chrome.exe" : undefined),
+    process.env.CHROME_PATH ||
+    (process.platform === "win32"
+      ? "C:/Program Files/Google/Chrome/Application/chrome.exe"
+      : undefined),
   headless: true,
 });
-const folder = "design-references/motion-review";
+const folder = "test-results/motion";
 await fs.mkdir(folder, { recursive: true });
-const checks = [];
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+page.setDefaultTimeout(10000);
 const errors = [];
-
-async function settle(page) {
-  await page.evaluate(async () => {
-    await new Promise((resolve) =>
-      requestAnimationFrame(() => requestAnimationFrame(resolve)),
-    );
-    await Promise.all(
-      document
-        .getAnimations()
-        .map((animation) => animation.finished.catch(() => {})),
-    );
-  });
-}
-async function goToProgress(page, progress) {
-  await page.evaluate((progress) => {
-    const section = document.querySelector(".dojo-journey");
-    const top = window.innerWidth <= 640 ? 72 : 88;
-    const travel = section.offsetHeight - window.innerHeight + top;
-    const start = section.getBoundingClientRect().top + window.scrollY - top;
-    window.scrollTo({ top: start + travel * progress, behavior: "instant" });
-  }, progress);
-  await settle(page);
-}
-
-try {
-  const context = await browser.newContext({
-    viewport: { width: 1440, height: 900 },
-  });
-  const page = await context.newPage();
-  page.setDefaultTimeout(10000);
-  page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto(baseUrl);
-  await page.evaluate(async () => {
-    for (const image of document.images) image.loading = "eager";
-    await Promise.all(
-      [...document.images].map((image) => image.decode().catch(() => {})),
-    );
-    await document.fonts.ready;
-  });
-  await settle(page);
-  await page.screenshot({ path: `${folder}/hero-desktop.png` });
-  await page.screenshot({ path: `${folder}/desktop-full.png`, fullPage: true });
-
-  let previousOffset = 2;
-  for (const [index, progress] of [0.03, 0.5, 0.97].entries()) {
-    await goToProgress(page, progress);
-    assert.equal(
-      await page.locator(`#journey-tab-${index}`).getAttribute("aria-selected"),
-      "true",
-    );
-    const offset = Number(
-      await page
-        .locator("#obi-draw-mask path")
-        .getAttribute("stroke-dashoffset"),
-    );
-    assert(offset < previousOffset, "Pas odsłania się zgodnie z przewijaniem");
-    previousOffset = offset;
-    const clipped = await page
-      .locator(".journey-sticky")
-      .evaluate((element) => {
-        const last = element
-          .querySelector(".journey-join")
-          .getBoundingClientRect();
-        return last.bottom > element.getBoundingClientRect().bottom + 1;
-      });
-    assert(!clipped, "Cała treść historii mieści się w ekranie");
-    await page.screenshot({
-      path: `${folder}/journey-desktop-${index + 1}.png`,
+const checks = [];
+page.on("pageerror", (error) => errors.push(error.message));
+const selected = () =>
+  page.locator('.journey-tabs [aria-selected="true"]').getAttribute("id");
+const marker = () => page.locator(".obi-marker").getAttribute("transform");
+async function align() {
+  await page.evaluate(() => {
+    const el = document.querySelector(".dojo-journey");
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + scrollY - 120,
+      behavior: "instant",
     });
-  }
-  checks.push(
-    "Przewijanie: 3 etapy, narastające odsłanianie pasa, cała treść w kadrze",
+  });
+}
+async function settle() {
+  await page.waitForTimeout(500);
+}
+try {
+  await page.goto(process.env.TEST_URL || "http://127.0.0.1:5173");
+  await page.evaluate(async () => {
+    for (const img of document.images) img.loading = "eager";
+    await document.fonts.ready;
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) => img.decode().catch(() => {})),
+      ),
+      new Promise((resolve) => setTimeout(resolve, 5000)),
+    ]);
+  });
+  await align();
+  assert.equal(
+    await page
+      .locator(".journey-panel")
+      .evaluate((el) => getComputedStyle(el).position),
+    "relative",
   );
-
-  await page.getByRole("tab", { name: "01 Poznajmy się" }).click();
-  await page.waitForFunction(
-    () =>
-      document.querySelector("#journey-tab-0").getAttribute("aria-selected") ===
-      "true",
-  );
-  await page.locator("#journey-tab-0").focus();
-  await page.keyboard.press("End");
-  await page.waitForFunction(
-    () =>
-      document.querySelector("#journey-tab-2").getAttribute("aria-selected") ===
-      "true",
+  assert(
+    (await page.locator(".dojo-journey").boundingBox()).height < 900,
+    "no multi-screen scroll track",
   );
   assert.equal(
-    await page.locator(":focus").getAttribute("id"),
+    await page.locator("#obi-draw-mask").count(),
+    0,
+    "illustration is complete without scroll revelation",
+  );
+  const startMarker = await marker();
+  const scrollBefore = await page.evaluate(() => scrollY);
+  await page.locator("#journey-tab-2").click();
+  await settle();
+  assert.equal(await selected(), "journey-tab-2");
+  assert(
+    Math.abs((await page.evaluate(() => scrollY)) - scrollBefore) <= 1,
+    "selecting step does not move the page",
+  );
+  assert.notEqual(await marker(), startMarker, "chosen step moves the marker");
+  const endMarker = await marker();
+  await page.mouse.wheel(0, 600);
+  await page.waitForTimeout(150);
+  assert(
+    (await page.evaluate(() => scrollY)) > scrollBefore + 300,
+    "wheel scroll passes through section",
+  );
+  assert.equal(
+    await selected(),
     "journey-tab-2",
+    "scrolling cannot overwrite selection",
+  );
+  assert.equal(
+    await marker(),
+    endMarker,
+    "scrolling cannot animate the marker",
   );
   checks.push(
-    "Wybór etapu myszą i klawiaturą, fokus pozostaje na wybranym kroku",
+    "Naturalne przewijanie: bez przypinania, sztucznej wysokości, zmiany etapu i ruchu pasa od scrolla",
   );
-
+  await align();
+  await page.locator("#journey-tab-0").focus();
+  const keyboardStart = await page.evaluate(() => scrollY);
+  await page.keyboard.press("Home");
+  await page.keyboard.press("ArrowRight");
+  await settle();
+  assert.equal(await selected(), "journey-tab-1");
+  assert.equal(
+    await page.locator(":focus").getAttribute("id"),
+    "journey-tab-1",
+  );
+  assert(Math.abs((await page.evaluate(() => scrollY)) - keyboardStart) <= 1);
+  await page.keyboard.press("End");
+  await settle();
+  assert.equal(await selected(), "journey-tab-2");
+  await page.keyboard.press("Home");
+  await settle();
+  assert.equal(await selected(), "journey-tab-0");
+  checks.push(
+    "Mysz i klawiatura: jawny wybór, strzałki/Home/End, zachowany fokus i pozycja strony",
+  );
+  await page.locator(".journey-join").click();
+  assert(await page.locator("dialog.dialog").evaluate((el) => el.open));
+  await page.keyboard.press("Escape");
+  assert(!(await page.locator("dialog.dialog").evaluate((el) => el.open)));
+  checks.push("Kontakt z sekcji otwiera formularz; Escape zamyka okno");
+  await page.addStyleTag({
+    content: ".header,.skip-link{visibility:hidden!important}",
+  });
   for (const [width, height] of [
+    [1440, 1000],
+    [1024, 1000],
     [768, 1000],
+    [640, 844],
     [390, 844],
     [320, 844],
-    [1440, 700],
+    [1440, 600],
   ]) {
+    await page.locator("#journey-tab-2").click();
+    await settle();
     await page.setViewportSize({ width, height });
-    await settle(page);
-    if (height < 800) {
-      assert.equal(
-        await page.locator(".dojo-journey").getAttribute("data-static"),
-        "true",
-      );
-      await page.locator("#journey-tab-1").click();
-      assert.equal(
-        await page.locator("#journey-tab-1").getAttribute("aria-selected"),
-        "true",
-      );
-    } else {
-      await goToProgress(page, 0.5);
-      assert.equal(
-        await page.locator("#journey-tab-1").getAttribute("aria-selected"),
-        "true",
-      );
-      const bounds = await page.locator(".journey-join").boundingBox();
-      assert(
-        bounds.y + bounds.height <= height + 1,
-        `Przycisk widoczny przy ${width}px`,
-      );
-    }
+    assert.equal(await selected(), "journey-tab-2", "resize preserves choice");
+    assert.equal(
+      await page
+        .locator(".journey-panel")
+        .evaluate((el) => getComputedStyle(el).position),
+      "relative",
+    );
     assert(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
+      `overflow ${width}`,
     );
-    if (width === 390 || width === 768)
-      await page.screenshot({ path: `${folder}/journey-${width}.png` });
-    if (width === 390) {
-      await page.evaluate(() =>
-        window.scrollTo({ top: 0, behavior: "instant" }),
-      );
-      await settle(page);
-      await page.screenshot({
-        path: `${folder}/mobile-full.png`,
-        fullPage: true,
-      });
+    const sizes = [];
+    for (let index = 0; index < 3; index++) {
+      await page.locator(`#journey-tab-${index}`).click();
+      await settle();
+      sizes.push((await page.locator(".dojo-journey").boundingBox()).height);
     }
+    assert(
+      Math.max(...sizes) - Math.min(...sizes) <= 2,
+      `stable section height ${width}: ${sizes}`,
+    );
+    assert(Math.max(...sizes) < 1200, `no extra scroll track ${width}`);
+    if ([1440, 768, 390].includes(width) && height >= 844)
+      await page
+        .locator(".dojo-journey")
+        .screenshot({ path: `${folder}/journey-${width}.png` });
   }
-  checks.push("Historia na 768/390/320 px i ręczny wybór na niskim ekranie");
-
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await settle(page);
-  assert.equal(
-    await page.locator(".dojo-journey").getAttribute("data-static"),
-    "true",
+  checks.push(
+    "1440/1024/768/640/390/320 px i niski ekran: brak przepełnienia, stała wysokość etapów i zachowany wybór",
   );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const previous = await marker();
+  await page.locator("#journey-tab-1").click();
+  await page.evaluate(
+    () =>
+      new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
+  );
+  assert.notEqual(await marker(), previous);
+  const reducedMarker = await marker();
+  await page.waitForTimeout(100);
+  assert.equal(await marker(), reducedMarker);
   assert.equal(
     await page
-      .locator(".journey-sticky")
-      .evaluate((element) => getComputedStyle(element).position),
-    "relative",
-  );
-  await page.locator("#journey-tab-1").click();
-  assert.equal(
-    await page.locator("#journey-tab-1").getAttribute("aria-selected"),
-    "true",
-  );
-  assert.equal(
-    await page.evaluate(
-      () =>
-        document
-          .getAnimations()
-          .filter((animation) => animation.playState === "running").length,
-    ),
+      .locator(".dojo-journey")
+      .evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running").length,
+      ),
     0,
   );
   checks.push(
-    "prefers-reduced-motion: bez przypinania i animacji, działające kroki",
+    "prefers-reduced-motion: natychmiastowa pozycja znacznika, bez animacji, wszystkie etapy dostępne",
   );
   assert.deepEqual(errors, []);
   await fs.writeFile(

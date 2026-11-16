@@ -26,22 +26,22 @@ Strona prowadzi rodzica od poznania klubu do wyboru sali, grupy i kontaktu w spr
 
 Zamiast anonimowego zestawu kart: plakatowy początek, redakcyjna kompozycja, reportażowe fotografie i własna ilustracja pasa judo. Czerwień wynika ze znaku klubu, a nie z przypadkowego motywu kolorystycznego.
 
-> **Jedna wyróżniająca interakcja:** przewijanie rozwija pas obi i prowadzi przez trzy kroki przed pierwszym treningiem. Na niskim ekranie lub przy ograniczeniu ruchu te same informacje wybiera się przyciskami.
+> **Trzy kroki we własnym tempie:** wybierz etap przed pierwszym treningiem. Czerwony znacznik na pasie reaguje na przycisk lub klawiaturę; strona przewija się swobodnie. Przy ograniczeniu ruchu pozycja zmienia się od razu.
 
 ### Zobacz ruch
 
 [▶ Demonstracja animacji — 21 sekund, MP4](design-references/motion-review/polonia-animations.mp4)
 
-Nagranie dokumentuje sekwencję obi i animacje wcześniejszej wersji. Aktualny pierwszy ekran oraz profile pokazują zrzuty w tym README.
+Nagranie jest archiwalną demonstracją poprzedniego wariantu. Obecna sekcja pierwszego treningu ma ręczny wybór trzech etapów, bez przypinania, dodatkowego dystansu przewijania i automatycznej zmiany treści od scrolla. Aktualny wygląd pokazują zrzuty poniżej.
 
 <table>
   <tr>
-    <td width="74%"><img src="design-references/motion-review/journey-desktop-3.png" alt="Pas judo i trzeci etap opowieści na komputerze" width="100%" /></td>
-    <td width="26%"><img src="design-references/motion-review/journey-390.png" alt="Ta sama interakcja dopasowana do telefonu 390 px" width="100%" /></td>
+    <td width="74%"><img src="design-references/journey/journey-1440.png" alt="Trzy widoczne przyciski etapów i ilustracja obi na komputerze" width="100%" /></td>
+    <td width="26%"><img src="design-references/journey/journey-390.png" alt="Ręczny wybór kroku i swobodne przewijanie na telefonie 390 px" width="100%" /></td>
   </tr>
   <tr>
-    <td align="center"><b>Komputer — przypięta narracja, naturalne przewijanie</b></td>
-    <td align="center"><b>Telefon — treść w zasięgu kciuka</b></td>
+    <td align="center"><b>Komputer — etap wybierasz przyciskiem lub klawiaturą</b></td>
+    <td align="center"><b>Telefon — zwykła sekcja, bez zatrzymywania przewijania</b></td>
   </tr>
 </table>
 
@@ -118,7 +118,7 @@ Otwórz **`/#/droga-po-pas`** lub wybierz „Droga po pas” w menu. Podstrona m
 | Efekt | Implementacja | Po co |
 | :--- | :--- | :--- |
 | Odsłonięcie liter hero | CSS, pojedyncza sekwencja | Nadaje wejściu sportowy rytm |
-| Pas obi | SVG + `requestAnimationFrame` | Łączy przewijanie z trzema krokami przed zajęciami |
+| Pas obi | SVG + `requestAnimationFrame` | Przesuwa znacznik przez 440 ms po wybraniu kroku; nie steruje przewijaniem |
 | Odsłonięcie fotografii | Intersection Observer + Web Animations API | Buduje jeden wyraźny moment fotograficzny |
 | Zmiana grafiku i filtrów | Krótkie przejścia stanów | Pokazuje, że treść została zmieniona |
 | Linia w nagłówku | Postęp przewijania | Ułatwia orientację w długiej stronie |
@@ -239,7 +239,7 @@ Stan lokalnych kontroli: **16 listopada 2026**. Bieżący status gałęzi `main`
 | :--- | :--- |
 | Build i ścisły TypeScript | Przeszły |
 | Testy funkcjonalne | 9 grup kontroli przeszło |
-| Testy animacji i klawiatury | 4 grupy kontroli przeszły |
+| Testy animacji i klawiatury | 5 grup kontroli: swobodny scroll, ręczny wybór, kontakt, responsywność i ograniczony ruch |
 | Profile zawodników | Wszystkie 182 starty dostępne w 10 profilach, komplet stron wyników, źródła, klawiatura i fotografie |
 | Archiwum IJF | Spójne 219 rekordów, działające filtry, CSV, udostępnianie i obsługa pustych lokat |
 | Droga po pas | Komplet 9 KYU, 73 nazwy technik, 87 pozycji wraz z podstawami; DAN, zapis powtórek, pełny druk, routing i 5 szerokości |
@@ -247,7 +247,7 @@ Stan lokalnych kontroli: **16 listopada 2026**. Bieżący status gałęzi `main`
 | Konsola podczas testów funkcjonalnych | Bez błędów |
 | Ograniczony ruch | Działająca alternatywa bez przypinania |
 
-[Raport funkcji](design-references/test-report.json) · [Raport ruchu](design-references/motion-review/report.json) · [Przegląd jakości](docs/quality-review.md) · [Analiza filmu i drugi audyt](docs/motion-refinement.md)
+[Raport funkcji](design-references/test-report.json) · [Aktualny raport ruchu](design-references/journey/report.json) · [Zmiana sterowania pasem](docs/motion-controls.md) · [Przegląd jakości](docs/quality-review.md) · [Historyczna analiza filmu](docs/motion-refinement.md)
 
 ### Pipeline Quality
 
@@ -303,6 +303,7 @@ npm run test:e2e
 | [System wizualny](docs/design-system.md) | Barwy, typografia, odstępy i komponenty |
 | [Badanie klubu](docs/research.md) | Źródła faktów, grafiku, fotografii i dokumentów |
 | [Rozwinięcie animacji](docs/motion-refinement.md) | Powody zmian i konkretne sprawdzenia |
+| [Swobodne przewijanie](docs/motion-controls.md) | Aktualna interakcja pierwszego treningu, wybór etapów i krótkie przejście znacznika |
 | [Źródła składu i kadry](docs/people-sources.md) | Identyfikacja zawodników, trenerzy i klubowe fotografie |
 | [Publiczna historia IJF](docs/ijf-results-sources.md) | Metoda pobrania, identyfikatory, liczby i zakres danych |
 | [Pełne profile](docs/profile-refresh.md) | Decyzje interfejsu i kontrola wszystkich startów |
